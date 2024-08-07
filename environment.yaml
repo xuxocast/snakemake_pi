@@ -1,0 +1,13 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - snakemake-minimal >=8.4.4
+  - stacks >=2.65
+  - bcftools >=1.20
+  - vcftools >=0.1.16
+  - samtools >=1.20
+  - bedtools >=2.27
+  - git
+  - pip:
+    - polars
