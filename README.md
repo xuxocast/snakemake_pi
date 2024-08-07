@@ -28,3 +28,6 @@ Run with:
 ```
 snakemake -j {cores}
 ```
+
+
+This pipelines employs [piawk](https://github.com/novikovalab/piawka) in one of its steps, all credits for its authors :) 
