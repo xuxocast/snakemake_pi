@@ -8,6 +8,5 @@ dependencies:
   - vcftools >=0.1.16
   - samtools >=1.20
   - bedtools >=2.27
-  - git
   - pip:
     - polars
