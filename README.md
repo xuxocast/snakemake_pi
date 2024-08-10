@@ -1,14 +1,13 @@
 # snakemake_pi
 An Snakemake pipeline for unbiased population metrics
 
-
-<img src="dag.svg " width="1000" height="750" />
-
-
-
 1. [Requirements](#requirements)
 2. [Installation](#installation)
 3. [Running the pipeline](#running)
+
+
+<img src="dag.svg " width="1000" height="550" />
+
 
 ## Requirements  <a name="requirements"></a>
 
@@ -72,8 +71,10 @@ Once the environment its activated it is needed to populate the data folder and 
 1.  Copy the reference genome into the folder *00-data/*. Modify the entry *ref_genome: "00-data/MYFILE.fasta* in *config.yaml*.
 2.  Copy the population index into the folder *00-data/*. Modify the entry *pop_index: "00-data/MYFILE.tsv* in *config.yaml*.
 3.  Populate the folder *00-reads/* with *\*.bam* files. 
-4. Modify other options on *config.yaml* such as the number of threads employed by samtools, bcftools, piawka, or gstacks.
-
+4. Modify other options on *config.yaml* such as:
+	- *threads* employed by samtools, bcftools, piawka, or gstacks.
+	-  *min_map_quality* minimum PHRED-scaled mapping quality to consider a read for gstacks.
+	- *subsize.* The size of the groups for which bftools is merging vcf files in parallel. It is recommended to choose a number in the order of #VCF files / #Threads.
 
 Run with:
 ```

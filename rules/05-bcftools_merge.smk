@@ -8,6 +8,9 @@ nn = int(config['bcftools_merge']['subsize'])
 subset_vcf = [bams[i:i+nn] for i in range(0,len(bams),nn)]
 subfiles = [f"subcvf{i}" for i in range(len(subset_vcf))]
 
+if len(subset_vcf[-1]==1):
+	subfiles.append(subset_vcf.pop(-1)
+
 # Creates files with filenames to merge
 for i in range(len(subfiles)):
 	with open(odir + subfiles[i], "w") as file:
