@@ -1,5 +1,5 @@
-ref_genome: "00-data/DU_Maus_v1.0_HiC.fasta"
-pop_index: "00-data/id_pop.txt"
+ref_genome: "00-data/MYFILE.fasta"
+pop_index: "00-data/MYFILE.tsv"
 samtools:
   threads: 4
 gstacks:

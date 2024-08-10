@@ -6,27 +6,78 @@ An Snakemake pipeline for unbiased population metrics
 
 
 
-Needs a mamba (or micromamba) previously instaled (refer to [mamba installation](https://github.com/conda-forge/miniforge)). Create the enviroment with:
+1. [Requirements](#requirements)
+2. [Installation](#installation)
+3. [Running the pipeline](#running)
+
+## Requirements  <a name="requirements"></a>
+
+It is required **MAMBA** to employ snakemake pipelines, however any other conda implementation such as micromamba also work. We recommend installing mamba trough [Miniforge](https://github.com/conda-forge/miniforge).
+
+### Unix-like platforms (Mac OS & Linux)
+
+Download the installer using curl or wget or your favorite program and run the script:
+
 ```
-mamba env create -f enviroment.yaml -n snakemake_pi
+curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"    
+
+bash Miniforge3-$(uname)-$(uname -m).sh
+
+mamba init
 ```
 
-and activate the created enviroment with:
+Check mamba was installed correctly by running:
+```
+mamba --help   
+```
+
+
+### Windows
+
+Download and execute the Windows installer. Follow the prompts, taking note of the options to
+"Create start menu shortcuts" and "Add Miniforge3 to my PATH environment variable". The latter is
+not selected by default due to potential conflicts with other software. Without Miniforge3 on the
+path, the most convenient way to use the installed software (such as commands `conda` and `mamba`)
+will be via the "Miniforge Prompt" installed to the start menu.
+
+
+
+
+## Installation and configuration  <a name="installation"></a>
+
+1. Clone the repo:
+```
+git clone https://github.com/xuxocast/snakemake_pi.git
+```
+
+2. Enter into the pipeline folder and create the environment:
+
+```
+mamba env create -f environment.yaml -n snakemake_pi
+```
+
+3. Activate the created environment:
 ```
  mamba activate snakemake_pi
 ```
 
-Once the enviroment its activated it is needed to populate the data folders with:
 
-1.  reference genome 
-2.  population index
-3.  reads files (in *bam* format under the folder *00-reads/*)
 
-Refefer to *config.yaml* to modify the filepaths and other pipeline options.
+
+## Running the pipeline  <a name="running"></a>
+
+
+Once the environment its activated it is needed to populate the data folder and to modify the file paths defined in *config.yaml*:
+
+1.  Copy the reference genome into the folder *00-data/*. Modify the entry *ref_genome: "00-data/MYFILE.fasta* in *config.yaml*.
+2.  Copy the population index into the folder *00-data/*. Modify the entry *pop_index: "00-data/MYFILE.tsv* in *config.yaml*.
+3.  Populate the folder *00-reads/* with *\*.bam* files. 
+4. Modify other options on *config.yaml* such as the number of threads employed by samtools, bcftools, piawka, or gstacks.
+
 
 Run with:
 ```
-snakemake -j {cores}
+snakemake -j {number of cores}
 ```
 
 
