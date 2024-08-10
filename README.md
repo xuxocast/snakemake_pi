@@ -76,6 +76,7 @@ Once the environment its activated it is needed to populate the data folder and 
 	-  *min_map_quality* minimum PHRED-scaled mapping quality to consider a read for gstacks.
 	- *subsize.* The size of the groups for which bftools is merging vcf files in parallel. It is recommended to choose a number in the order of #VCF files / #Threads.
 
+
 Run with:
 ```
 snakemake -j {number of cores}
