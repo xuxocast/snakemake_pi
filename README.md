@@ -77,9 +77,33 @@ Once the environment its activated it is needed to populate the data folder and 
 	- *subsize.* The size of the groups for which bftools is merging vcf files in parallel. It is recommended to choose a number in the order of #VCF files / #Threads.
 
 
-Run with:
+### Testing
+
+Test everything is in order with a --dry-run:
+
 ```
-snakemake -j {number of cores}
+snakemake -np
+```
+
+Also, visualise the DAG of jobs:
+
+```
+snakemake --dag | dot -Tsvg > dag.svg
+```
+
+or the DAG of rules:
+
+```
+snakemake --rulegraph | dot -Tsvg > ruledag.svg
+```
+
+
+### Running
+
+Finally, run the snakemake pipeline in the background while sending its output and errors to *snake.log*:
+
+```
+snakemake -j {number of cores} > snake.log 2>&1 &
 ```
 
 
