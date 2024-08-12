@@ -12,8 +12,8 @@ include: "rules/03-vcftools_filter.smk"
 include: "rules/04-bcftools_sort.smk"
 include: "rules/05-bcftools_merge.smk"
 include: "rules/06-reheader.smk"
-include: "rules/07-piawka.smk"
-include: "rules/08-piawka_agg.smk"
+include: "rules/07-piawka_het.smk"
+include: "rules/08-piawka_pi.smk"
 
 #######################################################################################
 rule all:
@@ -23,4 +23,3 @@ rule all:
 		config['piawka_agg']['output_dir']  + 'genomic_fst_matrix.tsv',
 		config['piawka_agg']['output_dir']  + 'genomic_fst_table.tsv',
 		config['piawka_agg']['output_dir']  + 'genomic_pi_table.tsv',
-		config['piawka_agg']['output_dir']  + 'genomic_het_table.tsv'

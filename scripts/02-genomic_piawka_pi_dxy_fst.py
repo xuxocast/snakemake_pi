@@ -1,17 +1,17 @@
 import polars as pl
 import argparse
 
-def parse_piawka_dxy(input_filename,prefix=''):
+def parse_piawka_dxy(input_filename,):
 	# Name output files
 	fname = input_filename.split('/')[-1]
 	wdir = '/'.join(input_filename.split('/')[:-1])
 	if '/' in input_filename:
 		wdir +=  '/'
-	output_pi_filename = wdir   + prefix + 'genomic_pi_table.tsv'
-	output_dxy_filename1 = wdir + prefix + 'genomic_dxy_table.tsv'
-	output_dxy_filename2 = wdir + prefix + 'genomic_dxy_matrix.tsv'
-	output_fst_filename1 = wdir + prefix + 'genomic_fst_table.tsv'
-	output_fst_filename2 = wdir + prefix + 'genomic_fst_matrix.tsv'
+	output_pi_filename = wdir   + 'genomic_pi_table.tsv'
+	output_dxy_filename1 = wdir + 'genomic_dxy_table.tsv'
+	output_dxy_filename2 = wdir + 'genomic_dxy_matrix.tsv'
+	output_fst_filename1 = wdir + 'genomic_fst_table.tsv'
+	output_fst_filename2 = wdir + 'genomic_fst_matrix.tsv'
 
 	schema={'column_1':pl.String, 'column_2':pl.Int32, 'column_3':pl.String, 
         'column_4':pl.String, 'column_5':pl.Int32, 'column_6':pl.String, 
@@ -61,6 +61,5 @@ def parse_piawka_dxy(input_filename,prefix=''):
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='A Python script to reduce a pixy PI dataframe.')
 	parser.add_argument('filename', help='The path of the dataframe')           # positional argument  
-	parser.add_argument('-p','--prefix', help='Prefix in the output filenames',default='')
 	args = vars(parser.parse_args())
-	parse_piawka_dxy(args['filename'],prefix=args['prefix'])
+	parse_piawka_dxy(args['filename'],)
