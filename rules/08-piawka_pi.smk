@@ -31,5 +31,5 @@ rule piawka_agg_pi:
 	log:
 		config['piawka_agg']['logs'] + 'pi_dxy.log'
 	shell:
-		'python scripts/02-genomic_piawka_pi_dxy_fst.py {input} 2>{log}'
+		'python scripts/03-genomic_piawka_pi_dxy_fst.py {input} 2>{log}'
 

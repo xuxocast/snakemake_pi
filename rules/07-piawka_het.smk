@@ -28,4 +28,4 @@ rule piawka_agg_het:
 	log:
 		config['piawka_agg']['logs'] + 'het.log'
 	shell:
-		'python scripts/03-genomic_piawka_het.py {input.het} -p {input.poi} 2>{log}'	
+		'python scripts/02-genomic_piawka_het.py {input.het} -p {input.poi} 2>{log}'	

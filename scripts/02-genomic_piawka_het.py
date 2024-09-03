@@ -25,14 +25,18 @@ def parse_piawka_het(input_filename,pop_filename):
 
 	#--------------------------------------------------
 	# HET Table
-	df_het = df_het.group_by("pop1").agg(pl.col("numerator").sum(), pl.col("denominator").sum(),).sort('pop1')
+	df_het = df_het.group_by("pop1").agg(pl.col("numerator").sum(), pl.col("denominator").sum(), ).sort('pop1')
 	df_het = df_het.with_columns((pl.col('numerator') / pl.col('denominator')).alias('het')).collect()#.rename({"numerator":'diffs','denominator':'comps'})
-	df_het.write_csv(output_het_filename,separator='\t',)
+	
+    # Filterin High Het
+	den_min = df_het.select(pl.mean("denominator") - 2*pl.std('denominator')).item()
+	max_het = df_het.select(pl.mean("het") + 2*pl.std('het')).item()
+	filtered_ids = df_het.filter(pl.col('het') <= max_het, pl.col('denominator') >= den_min).select('pop1')
+	print(f'The following induviduals were removed:')
+	print(df_het.filter(~pl.col('pop1').is_in(filtered_ids)) )
+	df_het.filter(pl.col('pop1').is_in(filtered_ids) ).write_csv(output_het_filename,separator='\t',)
 	#--------------------------------------------------
 	# ID POP
-	den_min = df_het.select(pl.mean("denominator") - 2*pl.std('denominator')).item()
-	filtered_ids = pl.Series(df_het.filter(df_het['denominator'] >= den_min ).select('pop1')).to_list()
-
 	df_pop = pl.read_csv(pop_filename,separator="\t",has_header=False)
 	df_pop.filter( pl.col('column_1').is_in(filtered_ids) ).write_csv(output_pop_filename,separator='\t',include_header=False)
 
