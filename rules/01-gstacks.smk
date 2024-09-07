@@ -5,7 +5,7 @@ rule gstacks:
 		output_dir = config['gstacks']['output_dir'],
 		min_map_quality = config['gstacks']['min_map_quality'],
 	threads:
-		config['gstacks']['threads'],
+		config['threads'],
 	input:
 		popmap = config['pop_index'],
 		bams   = expand(config['gstacks']['input_dir'] + "{xyz}.bam", xyz=bams,),

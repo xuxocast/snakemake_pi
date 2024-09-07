@@ -9,7 +9,7 @@ rule piawka_het:
 	params:
 		config['piawka']['script_dir']
 	threads:
-		config['piawka']['threads']
+		config['threads']
 	log:
 		config['piawka']['log_het']
 	shell:

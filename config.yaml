@@ -1,13 +1,11 @@
 ref_genome: "/home/xuxos/git/data/DU_Maus_v1.0_HiC.fasta"
 pop_index: "/home/xuxos/git/data/id_pop.tsv"
 reads_dir: "/home/xuxos/git/data/reads/"
-samtools:
-  threads: 4
+threads: 4
 gstacks:
   input_dir: "00-reads/"
   output_dir: "01-gstacks/"
   logs: "logs/01-gstacks.log"
-  threads: 4
   min_map_quality: 30
 fasta2bed:
   dir_script: "scripts/"
@@ -22,8 +20,6 @@ vcftools_filter:
 bcftools_sort:
   logs: "logs/03-bcftools_sort_"
 bcftools_merge:
-  subsize: 3
-  threads: 4
   output_dir: "04-bcftools_merge/"
   logs: "logs/04-bcftools_merge.log"
 bfctools_reheader:
@@ -31,7 +27,6 @@ bfctools_reheader:
 piawka:
   script_dir: scripts/piawka/
   output_dir: "05-genomic_pi/"
-  threads: 4
   log_pi:  "logs/05-piawka_pi_dxy_fst.log"
   log_het: "logs/05-piawka_het.log"
 piawka_agg:
