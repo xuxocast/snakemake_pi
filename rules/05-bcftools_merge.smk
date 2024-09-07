@@ -2,7 +2,8 @@ import os
 
 idir = config['vcftools_filter']['output_dir']
 odir = config['bcftools_merge']['output_dir'] 
-nn = int(config['bcftools_merge']['subsize'])
+nn = len(bams) // config['threads'] 
+nn = nn if nn>1 else 3
 
 # Creates groups of VCFs for partial parallel merge
 subset_vcf = [bams[i:i+nn] for i in range(0,len(bams),nn)]
@@ -44,6 +45,6 @@ rule bcftools_merge:
 	log:
 		config['bcftools_merge']['logs'] + 'all_merged.log'
 	threads:
-		config['bcftools_merge']['threads'] 
+		config['threads'] 
 	shell:
 		"bcftools merge --file-list {input.names} --threads {threads} -Oz -o {output} 2>{log}"
