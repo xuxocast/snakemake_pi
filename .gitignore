@@ -7,3 +7,4 @@
 05-genomic_pi/*
 logs/*
 .snakemake/
+snake.log

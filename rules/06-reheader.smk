@@ -1,7 +1,3 @@
-import os
-
-os.system(f"cat {config['pop_index']} | awk '{{print $1}}' > 00-data/id.txt")
-
 #######################################################################################
 rule reheader:
 	input:
