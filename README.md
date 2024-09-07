@@ -103,7 +103,7 @@ snakemake --rulegraph | dot -Tsvg > ruledag.svg
 Finally, run the snakemake pipeline in the background while sending its output and errors to *snake.log*:
 
 ```
-snakemake -j {number of cores} > snake.log 2>&1 &
+nohup snakemake -j {number of cores} > snake.log 2>&1 &
 ```
 
 

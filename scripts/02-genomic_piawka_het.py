@@ -1,13 +1,14 @@
 import polars as pl
 import argparse
 
-def parse_piawka_het(input_filename,prefix=''):
+def parse_piawka_het(input_filename,pop_filename):
 	# Name output files
 	fname = input_filename.split('/')[-1]
 	wdir = '/'.join(input_filename.split('/')[:-1])
 	if '/' in input_filename:
 		wdir +=  '/'
-	output_het_filename = wdir + prefix + 'genomic_het_table.tsv'
+	output_het_filename = wdir + 'genomic_het_table.tsv'
+	output_pop_filename = wdir + 'ids_filtered.tsv'
 
 	schema={'column_1':pl.String, 'column_2':pl.Int32, 'column_3':pl.String, 
         'column_4':pl.String, 'column_5':pl.Int32, 'column_6':pl.String, 
@@ -24,16 +25,28 @@ def parse_piawka_het(input_filename,prefix=''):
 
 	#--------------------------------------------------
 	# HET Table
-	df_het = df_het.group_by("pop1").agg(pl.col("numerator").sum(), pl.col("denominator").sum(),).sort('pop1')
+	df_het = df_het.group_by("pop1").agg(pl.col("numerator").sum(), pl.col("denominator").sum(), ).sort('pop1')
 	df_het = df_het.with_columns((pl.col('numerator') / pl.col('denominator')).alias('het')).collect()#.rename({"numerator":'diffs','denominator':'comps'})
-	df_het.write_csv(output_het_filename,separator='\t',)
-	del df_het, df
+	
+    # Filterin High Het
+	den_min = df_het.select(pl.mean("denominator") - 2*pl.std('denominator')).item()
+	max_het = df_het.select(pl.mean("het") + 2*pl.std('het')).item()
+	filtered_ids = df_het.filter(pl.col('het') <= max_het, pl.col('denominator') >= den_min).select('pop1')
+	print(f'The following induviduals were removed:')
+	print(df_het.filter(~pl.col('pop1').is_in(filtered_ids)) )
+	df_het.filter(pl.col('pop1').is_in(filtered_ids) ).write_csv(output_het_filename,separator='\t',)
+	#--------------------------------------------------
+	# ID POP
+	df_pop = pl.read_csv(pop_filename,separator="\t",has_header=False)
+	df_pop.filter( pl.col('column_1').is_in(filtered_ids) ).write_csv(output_pop_filename,separator='\t',include_header=False)
+
+	del df_het, df, df_pop
 	return
 
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='A Python script to reduce a pixy PI dataframe.')
 	parser.add_argument('filename', help='The path of the dataframe')           # positional argument  
-	parser.add_argument('-p','--prefix', help='Prefix in the output filenames',default='')
+	parser.add_argument('-p','--pop', help='Population Dataframe',default='')
 	args = vars(parser.parse_args())
-	parse_piawka_het(args['filename'],prefix=args['prefix'])
+	parse_piawka_het(args['filename'],args['pop'])
